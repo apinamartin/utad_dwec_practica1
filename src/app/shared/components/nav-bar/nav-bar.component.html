@@ -1,0 +1,24 @@
+<nav class="bg-indigo-900 p-6 flex items-center justify-between">
+    <!-- Nombre de la app -->
+    <div class="text-white md:text-3xl font-bold md:mx-10">
+        Movies App
+    </div>
+
+    <!-- Barra de búsqueda -->
+    <div class="flex-1 mx-14 my-2 md:my-0" *ngIf="isHomePage">
+        <input
+        type="text"
+        placeholder="Buscar..."
+        class="w-full p-2 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+        (input)="onSearchChange($event)"
+        />
+    </div>
+
+    <!-- Botón de favoritos -->
+    <button
+        (click)="navigateToFavorites()"
+        class="bg-rose-600 text-white px-4 py-2 mx-4 my-2 text-sm md:text-base md:px-4 md:py-2 rounded-md hover:bg-rose-400"
+    >
+        Favoritos
+    </button>
+</nav>

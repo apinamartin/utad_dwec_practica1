@@ -1,0 +1,72 @@
+<!-- Mostrar mensaje "Loading..." cuando isLoading sea verdadero -->
+<div *ngIf="isLoading" class="text-white text-xl text-center my-10">
+  Loading...
+</div>
+
+<!-- Mostrar mensaje cuando movieDetails no exista -->
+<div *ngIf="!isLoading && !movieDetails" class="text-white text-xl text-center my-10">
+  No movie details available
+</div>
+
+<div *ngIf="!isLoading && movieDetails" class="max-w-4xl mx-auto my-10 bg-gray-800 text-white rounded-lg shadow-lg overflow-hidden">
+    <!-- Imagen del póster -->
+    <div class="relative">
+      <img 
+        [src]="environment.backdropImageUrl + movieDetails.backdrop_path"
+        [alt]="movieDetails.title" 
+        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+      />
+    </div>
+  
+    <!-- Información de la película -->
+    <div class="p-6">
+      <h1 class="text-2xl font-bold mb-4">{{ movieDetails.title }}</h1>
+  
+      <!-- Calificación y géneros -->
+      <div class="flex items-center mb-4 space-x-4">
+        <span class="bg-yellow-500 text-black px-3 py-1 rounded-full text-sm">
+          ⭐ {{ movieDetails.vote_average }}
+        </span>
+        <div class="flex space-x-2">
+            @for (genre of movieDetails.genres; track $index) {
+                <span 
+                class="text-sm bg-gray-700 px-2 py-1 rounded-full"
+                >
+                    {{ genre.name }}
+                </span>
+            }
+        </div>
+      </div>
+  
+      <!-- Resumen -->
+      <p class="mb-6 text-gray-300">{{ movieDetails.overview }}</p>
+  
+      <!-- Productoras -->
+      <div>
+        <h2 class="font-semibold mb-2">Productors:</h2>
+        <ul>
+          @for (company of movieDetails.production_companies; track $index) {
+            <li 
+            class="text-sm text-gray-400"
+            >
+                {{ company.name }}
+          </li>
+        }
+        </ul>
+      </div>
+  
+      <!-- Botón para añadir a favoritos -->
+      <div class="mt-6">
+        <button
+          (click)="onFavClick()"
+          [ngClass]="{
+            'bg-yellow-500 hover:bg-yellow-600 text-black': !moviesService.isFavorite(movieDetails.id ?? 0),
+            'bg-rose-600 hover:bg-rose-700 text-white': moviesService.isFavorite(movieDetails.id ?? 0)
+          }"
+          class="px-4 py-2 rounded shadow"
+        >
+        {{ moviesService.isFavorite(movieDetails.id ?? 0) ? '- Delete from Favorites' : '+ Add to Favorites' }}
+        </button>
+      </div>
+    </div>
+  </div>

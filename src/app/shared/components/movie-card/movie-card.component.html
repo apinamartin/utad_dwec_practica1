@@ -1,0 +1,29 @@
+<div class="relative group w-60 h-80 bg-gray-800 rounded-lg overflow-hidden shadow-lg cursor-pointer" (click)="navigateToDetails()">
+    <!-- Imagen de la película -->
+    <img 
+        [src]="environment.posterImageUrl + movie?.poster_path"
+        [alt]="movie?.title" 
+        class="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+    />
+
+    <!-- Información sobre la película (Hover) -->
+    <div 
+        class="absolute inset-0 bg-black bg-opacity-70 flex flex-col items-center justify-center text-center text-white opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+    >
+        <h2 class="text-lg font-bold">{{ movie?.title }}</h2>
+    </div>
+</div>
+
+<!-- Botón de favoritos debajo de la tarjeta -->
+<div class="mt-2 flex justify-center">
+    <button 
+        (click)="onFavClick()"
+        [ngClass]="{
+            'bg-yellow-500 hover:bg-yellow-600 text-black': !moviesService.isFavorite(movie?.id ?? 0),
+            'bg-rose-600 hover:bg-rose-700 text-white': moviesService.isFavorite(movie?.id ?? 0)
+        }"
+        class="px-4 py-1 my-2 text-sm rounded"
+    >
+        {{ moviesService.isFavorite(movie?.id ?? 0) ? '- Favorites' : '+ Favorites' }}
+    </button>
+</div>
